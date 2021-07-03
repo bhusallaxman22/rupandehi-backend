@@ -1,4 +1,4 @@
 module.exports = {
-  mongoURI: "mongodb://127.0.0.1:27017/job_portal",
+  mongoURI: "mongodb+srv://laxman:laxman@cluster0.50zyl.mongodb.net/rupandehi-job?retryWrites=true&w=majority",
   secret: "harey-ram",
 };

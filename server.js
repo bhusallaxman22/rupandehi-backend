@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const path = require("path")
 const app = express();
 
 const dbURI = require("./config/config").mongoURI;
@@ -21,6 +22,7 @@ mongoose
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/', express.static(path.join(__dirname, 'build')))
 app.use("/api/user", users);
 app.use("/api/list", listings);
 app.use("/api/rating", ratings);
