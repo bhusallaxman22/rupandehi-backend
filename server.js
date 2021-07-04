@@ -11,7 +11,7 @@ const ratings = require("./routes/rating");
 const applications = require("./routes/applications");
 const cv = require("./routes/cv");
 const dp = require("./routes/dp");
-const PORT = 5000  || process.env.PORT;
+const PORT =process.env.PORT|| 5000;
 const cors = require("cors");
 app.use(cors());
 
