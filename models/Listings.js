@@ -67,6 +67,14 @@ let Listing = new mongoose.Schema({
     enum: ["Full-Time", "Part-Time", "WFH"],
     default: "Full-Time",
   },
+  requirements: {
+    type: String,
+    required:true
+  },
+  description: {
+    type: String,
+    required:true
+  },
   duration: {
     type: Number,
     default: 0,

@@ -3,6 +3,7 @@ let User = require("../models/User");
 let Applications = require("../models/Application");
 let Education = require("../models/Education");
 let Skills = require("../models/Skills");
+let Trainings = require("../models/Trainings")
 const keys = require("../config/config");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -99,9 +100,9 @@ router.get("/", function (req, res) {
 // @access Public
 router.post("/register", (req, res) => {
   const { errors, isValid } = isRegValid(req.body);
-  if (!isValid) {
-    return res.status(400).send(errors);
-  }
+  // if (!isValid) {
+  //   return res.status(400).send(JSON.stringify(errors));
+  // }
   User.findOne({ Email: req.body.Email }).then((user) => {
     if (user) {
       return res.status(400).send("Email already exists!");
@@ -133,7 +134,9 @@ router.post("/register", (req, res) => {
 router.post("/login", (req, res) => {
   const { errors, isValid } = isLoginValid(req.body);
   if (!isValid) {
-    return res.status(400).send(errors);
+    console.log("error occured in registring")
+    return res.status(400).send(JSON.stringify(errors));
+
   }
   const Email = req.body.Email;
   const password = req.body.password;
@@ -208,6 +211,23 @@ router.get("/edu", (req, res) => {
     return res.status(400).send("No education!");
   });
 });
+router.get("/traning", (req, res) => {
+  const token = req.header("x-auth-token");
+  if (!token) {
+    return res.status(401).send("Not Authorised");
+  }
+  var id = auth(token);
+  if (!id) {
+    return res.status(401).send("Not Authorised");
+  }
+  Trainings.find({ uid: id }).then((edus) => {
+    if (edus) {
+      return res.status(200).json(edus);
+    }
+    return res.status(400).send("No education!");
+  });
+});
+
 
 // @route POST api/edu/update
 // @desc  update education
@@ -228,6 +248,15 @@ router.post("/edu/update", (req, res) => {
               if (!isEmpty(req.body.edu.institute)) {
                 edu.institute = req.body.edu.institute;
               }
+              if (!isEmpty(req.body.edu.course)) {
+                edu.course = req.body.edu.course;
+              }
+              if (!isEmpty(req.body.edu.level)) {
+                edu.level = req.body.edu.level;
+              }
+              if (!isEmpty(req.body.edu.cgpa)) {
+                edu.cgpa = req.body.edu.cgpa;
+              }
               if (!isEmpty(req.body.edu.start_year)) {
                 edu.start_year = req.body.edu.start_year;
               }
@@ -246,6 +275,9 @@ router.post("/edu/update", (req, res) => {
 
           if (
             isEmpty(req.body.edu.institute) ||
+            isEmpty(req.body.edu.course) ||
+            isEmpty(req.body.edu.level) ||
+            isEmpty(req.body.edu.cgpa) ||
             isEmpty(req.body.edu.start_year) ||
             isEmpty(req.body.edu.uid)
           ) {
@@ -256,6 +288,9 @@ router.post("/edu/update", (req, res) => {
             edu2.end_year = req.body.edu.end_year;
           }
           edu2.institute = req.body.edu.institute;
+          edu2.course = req.body.edu.course
+          edu2.level = req.body.edu.level
+          edu2.cgpa = req.body.edu.cgpa
           edu2.uid = req.body.edu.uid;
           edu2.start_year = req.body.edu.start_year;
           edu3 = new Education(edu2);
@@ -268,7 +303,71 @@ router.post("/edu/update", (req, res) => {
     }
   });
 });
+router.post("/traning/update", (req, res) => {
+  const token = req.header("x-auth-token");
+  if (!token) {
+    return res.status(401).send("No token!");
+  }
+  var id = auth(token);
+  if (!id) return res.status(401).send("No user!");
+  return User.findOne({ _id: id }).then((user) => {
+    if (user) {
+      if (!isEmpty(req.body.traning)) {
+        if (!isEmpty(req.body.traning.id)) {
+          return Trainings.findOne({ _id: req.body.traning.id }).then((edu) => {
+            if (edu) {
+              if (!isEmpty(req.body.traning.institute)) {
+                edu.institute = req.body.traning.institute;
+              }
+              if (!isEmpty(req.body.traning.course)) {
+                edu.course = req.body.traning.course;
+              }
+              if (!isEmpty(req.body.traning.duration)) {
+                edu.duration = req.body.traning.duration;
+              }
+              if (!isEmpty(req.body.traning.completion_date)) {
+                edu.completion_date = req.body.traning.completion_date;
+              }
+              if (!isEmpty(req.body.traning.remark)) {
+                edu.completion_date = req.body.traning.remark;
+              }
+              edu.save();
+              return res.status(200).json(edu);
+            } else {
+              return res.status(400).send("no edu");
+            }
+          });
+        } else {
+          edu2 = {};
+          edu3 = {};
 
+          if (
+            isEmpty(req.body.traning.institute) ||
+            isEmpty(req.body.traning.course) ||
+            isEmpty(req.body.traning.duration) ||
+            isEmpty(req.body.traning.completion_date) ||
+            isEmpty(req.body.traning.remark) ||
+            isEmpty(req.body.traning.uid)
+          ) {
+            return res.status(400).send("Error!");
+          }
+
+          edu2.institute = req.body.traning.institute;
+          edu2.course = req.body.traning.course
+          edu2.duration = req.body.traning.duration
+          edu2.completion_date = req.body.traning.completion_date
+          edu2.uid = req.body.traning.uid;
+          edu2.remark = req.body.traning.remark;
+          edu3 = new Trainings(edu2);
+          edu3.save();
+          return res.status(200).json(edu3);
+        }
+      }
+    } else {
+      return res.status(400).send("Error!");
+    }
+  });
+});
 // @route POST api/user/profile
 // @desc  update profile
 // @access Private
@@ -286,6 +385,23 @@ router.post("/profile", (req, res) => {
       }
       if (!isEmpty(req.body.Bio)) {
         user.Bio = req.body.Bio;
+        user.Address = req.body.Address;
+        user.dob = req.body.dob
+        user.Name = req.body.Name
+        user.Email = req.body.Email
+        user.Contact = req.body.Contact
+      }
+      if (!isEmpty(req.body.gender)) {
+        user.gender = req.body.gender
+      }
+      if (!isEmpty(req.body.marital_status)) {
+        user.marital_status = req.body.marital_status
+      }
+      if (!isEmpty(req.body.religion)) {
+        user.religion = req.body.religion
+      }
+      if (!isEmpty(req.body.nationality)) {
+        user.nationality = req.body.nationality
       }
       user.save();
       return res.status(200).json(user);
@@ -367,6 +483,7 @@ router.get("/skills", (req, res) => {
     return res.status(400).send("Error in Skills!");
   });
 });
+
 // @route POST api/user/contact
 // @desc  Update Contact
 // @access Private

@@ -36,6 +36,14 @@ let User = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  dob:{
+    type:Date,
+    default:null
+  },
+  Address:{
+    type:String,
+    default:""
+  },
   cv: {
     type: Boolean,
     default: false,
@@ -44,6 +52,23 @@ let User = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  gender: {
+    type: String,
+    enum: ["Male", "Female","Others"],
+  },
+  nationality:{
+    type:String,
+    default:"Nepali"
+  },
+  marital_status :{
+    type:String,
+    enum:["Married","Single","Divorced","Widowed"],
+    default:"Single"
+  },
+  religion:{
+   type:String,
+  }
+
 });
 
 module.exports = mongoose.model("User", User);
