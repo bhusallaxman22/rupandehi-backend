@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 let Trainings = new mongoose.Schema({
   uid: {
-    type: String,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
   },
   course: {
     type: String,

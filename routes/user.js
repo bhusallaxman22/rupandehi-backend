@@ -11,6 +11,7 @@ const Validator = require("validator");
 const isEmpty = require("is-empty");
 const auth = require("../config/auth");
 const Listings = require("../models/Listings");
+const Specials = require("../models/Specials");
 
 function isRegValid(data) {
   var errors = "";
@@ -484,6 +485,112 @@ router.get("/skills", (req, res) => {
   });
 });
 
+// @route POST api/user/skills/delete
+// @desc  delete skill
+// @access Private
+router.post("/special/delete/", (req, res) => {
+  const token = req.header("x-auth-token");
+  if (!token) {
+    return res.status(401).send("Not Authorised");
+  }
+  var id = auth(token);
+  if (!id) return res.status(401).send("Not Authorised");
+  Specials.deleteOne({ _id: req.body.id, uid: id }).then((ski) => {
+    if (ski) {
+      return res.status(200).json(ski);
+    } else return res.status(400).send("Error in delete");
+  });
+});
+// @route POST api/user/skills/add
+// @desc  add skill
+// @access Private
+router.post("/special/add/", (req, res) => {
+  const token = req.header("x-auth-token");
+  if (!token) {
+    return res.status(401).send("Not Authorised");
+  }
+  var id = auth(token);
+  if (!id) return res.status(401).send("Not Authorised");
+  console.log(req.body);
+  skill = new Specials(req.body);
+  return skill.save((err, list) => {
+    if (err) {
+      return res.status(400).send("Specialisation!");
+    } else return res.status(200).json(list);
+  });
+});
+// @route POST api/user/skills/
+// @desc  show skills
+// @access Private
+router.get("/special", (req, res) => {
+  const token = req.header("x-auth-token");
+  if (!token) {
+    return res.status(401).send("Not Authorised");
+  }
+  var id = auth(token);
+  if (!id) {
+    return res.status(401).send("Not Authorised");
+  }
+  Specials.find({ uid: id }).then((ski) => {
+    if (ski) {
+      return res.status(200).json(ski);
+    }
+    return res.status(400).send("Error in Specialisation!");
+  });
+});
+
+router.post("/social/delete/", (req, res) => {
+  const token = req.header("x-auth-token");
+  if (!token) {
+    return res.status(401).send("Not Authorised");
+  }
+  var id = auth(token);
+  if (!id) return res.status(401).send("Not Authorised");
+  Specials.deleteOne({ _id: req.body.id, uid: id }).then((ski) => {
+    if (ski) {
+      return res.status(200).json(ski);
+    } else return res.status(400).send("Error in delete");
+  });
+});
+// @route POST api/user/skills/add
+// @desc  add skill
+// @access Private
+router.post("/social/add/", (req, res) => {
+  const token = req.header("x-auth-token");
+  if (!token) {
+    return res.status(401).send("Not Authorised");
+  }
+  var id = auth(token);
+  if (!id) return res.status(401).send("Not Authorised");
+  console.log(req.body);
+  skill = new Specials(req.body);
+  return skill.save((err, list) => {
+    if (err) {
+      return res.status(400).send("Specialisation!");
+    } else return res.status(200).json(list);
+  });
+});
+// @route POST api/user/skills/
+// @desc  show skills
+// @access Private
+router.get("/social", (req, res) => {
+  const token = req.header("x-auth-token");
+  if (!token) {
+    return res.status(401).send("Not Authorised");
+  }
+  var id = auth(token);
+  if (!id) {
+    return res.status(401).send("Not Authorised");
+  }
+  Specials.find({ uid: id }).then((ski) => {
+    if (ski) {
+      return res.status(200).json(ski);
+    }
+    return res.status(400).send("Error in Specialisation!");
+  });
+});
+
+// @route POST api/user/
 // @route POST api/user/contact
 // @desc  Update Contact
 // @access Private
