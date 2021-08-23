@@ -4,6 +4,32 @@ object-assign
 @license MIT
 */
 
+/*!
+      Copyright (c) 2017 Jed Watson.
+      Licensed under the MIT License (MIT), see
+      http://jedwatson.github.io/classnames
+    */
+
+/*! Moment Duration Format v2.2.2
+     *  https://github.com/jsmreese/moment-duration-format
+     *  Date: 2018-02-16
+     *
+     *  Duration format plugin function for the Moment.js library
+     *  http://momentjs.com/
+     *
+     *  Copyright 2018 John Madhavan-Reese
+     *  Released under the MIT license
+     */
+
+/*!@license
+ * UAParser.js v0.7.28
+ * Lightweight JavaScript-based User-Agent string parser
+ * https://github.com/faisalman/ua-parser-js
+ *
+ * Copyright © 2012-2021 Faisal Salman <f@faisalman.com>
+ * Licensed under MIT License
+ */
+
 /**
  * A better abstraction over CSS.
  *
@@ -90,3 +116,5 @@ object-assign
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+//! moment.js

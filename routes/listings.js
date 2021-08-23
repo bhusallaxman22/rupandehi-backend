@@ -20,7 +20,7 @@ router.post("/add", (req, res) => {
   let listing = new Listings(req.body);
   return listing.save((err, list) => {
     if (err) {
-      return res.status(400).send("Error Adding Job on Server!");
+      return res.status(400).send(err);
     } else return res.status(200).json(list);
   });
 });
@@ -29,18 +29,30 @@ router.post("/add", (req, res) => {
 // @access Private
 
 router.post("/", (req, res) => {
-  const token = req.header("x-auth-token");
-  if (!token) {
-    return res.status(401).send("Not authorised!");
-  }
-  var id = auth(token);
-  if (!id) return res.status(401).send("Not authorised!");
+  // const token = req.header("x-auth-token");
+  // if (!token) {
+  //   return res.status(401).send("Not authorised!");
+  // }
+  // var id = auth(token);
+  // if (!id) return res.status(401).send("Not authorised!");
   fixJobs();
   Listings.find(req.body.cond).then((listings) => {
     if (listings) {
       return res.status(200).json(listings);
     } else {
-      return res.status(400).send("No Listings");
+      return res.status(404).send("No Listings");
+    }
+  });
+});
+
+
+router.get("/:id", (req, res) => {
+  var id = req.params.id;
+  Listings.findOne({ _id: id }).then((list) => {
+    if (list) {
+      return res.status(200).json(list);
+    } else {
+      return res.status(401).send("Not found");
     }
   });
 });
@@ -56,7 +68,7 @@ router.post("/delete/", (req, res) => {
   }
   var id = auth(token);
   if (!id) return res.status(401).send("Not Authorised");
-  Listings.deleteOne({ _id: req.body.id }).then((edu) => {});
+  Listings.deleteOne({ _id: req.body.id }).then((edu) => { });
   Application.find({ lid: req.body.id }).then((apps) => {
     for (var i = 0; i < apps.length; i++) {
       apps[i].Status = "Deleted";
@@ -85,7 +97,6 @@ router.post("/update/", (req, res) => {
     opts,
     function (err, listings) {
       if (err) {
-        console.log(err);
         if (err.errors.max_no_of_applicants) {
           res.status(400).send(err.errors.max_no_of_applicants.message);
         } else if (err.errors.available_no) {

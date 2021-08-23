@@ -5,11 +5,7 @@ let Listing = new mongoose.Schema({
     type: String,
     required: true,
   },
-  name_of_r: {
-    type: String,
-    required: true,
-  },
-  email: {
+  edu_level: {
     type: String,
     required: true,
   },
@@ -17,25 +13,25 @@ let Listing = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  // link:{
+  //   type:String,
+  //   default:function lala(){
+  //   return this.title.replace(/ /g, "-")+"-"+this._id.splice(-4);
+  //   },
+  //   required:true
+  // },
   accepted: {
     type: Number,
     default: 0,
   },
-  max_no_of_applicants: {
-    type: Number,
-    required: true,
-    validate: [
-      function validator(val) {
-        if (this.curr_app) {
-          return val >= this.curr_app;
-        } else {
-          return val >= 0;
-        }
-      },
-      "Invalid Max no. of Applicants",
-    ],
+  level:{
+    type:String,
+    required:true
   },
-  available_no: {
+  job_location: {
+    type: String,
+  },
+  applicant_no: {
     type: Number,
     required: true,
     min: 1,
@@ -51,37 +47,45 @@ let Listing = new mongoose.Schema({
     ],
   },
   deadline: {
-    type: Date,
+    type: String,
     required: true,
   },
   postedOn: {
     type: Date,
     required: true,
+    default: Date.now()
   },
-  requiredSkills: {
+  skills: {
     type: [String],
     required: true,
   },
-  typeofJob: {
+  category: {
     type: String,
-    enum: ["Full-Time", "Part-Time", "WFH"],
-    default: "Full-Time",
+    required: true
+  },
+  type: {
+    type: String,
+    enum: ["Full Time", "Part Time", "WFH", "Contract"],
+    default: "Full Time",
   },
   requirements: {
     type: String,
-    required:true
+    required: true
   },
   description: {
     type: String,
-    required:true
+    required: true
   },
-  duration: {
-    type: Number,
-    default: 0,
+  experience: {
+    type: String,
+    required: true
   },
   salary: {
-    type: Number,
+    type: String,
     required: true,
+  },
+  apply_note: {
+    type: String,
   },
   rid: {
     type: mongoose.Schema.Types.ObjectId,
