@@ -96,6 +96,7 @@ router.get("/", function (req, res) {
   });
 });
 
+
 // @route POST api/user/register
 // @desc Register's a user
 // @access Public

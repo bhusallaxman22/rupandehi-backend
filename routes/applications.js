@@ -38,11 +38,8 @@ router.post("/add", (req, res) => {
           return res.status(400).send("You already Applied!");
         }
       }
-      if (count >= 10) {
-        return res.status(400).send("You already have 10 applications!");
-      } else {
+
         return Listings.findOne({ _id: req.body.lid }).then((l) => {
-          if (l.max_no_of_applicants > l.curr_app) {
             let Application = new Applications(req.body);
             return Application.save((err, list) => {
               if (err) {
@@ -75,13 +72,7 @@ router.post("/add", (req, res) => {
                 return res.status(200).json(list);
               }
             });
-          } else {
-            return res
-              .status(400)
-              .send("You can't apply since it has reached max allowed!");
-          }
         });
-      }
     }
   });
 });

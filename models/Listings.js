@@ -13,13 +13,6 @@ let Listing = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  // link:{
-  //   type:String,
-  //   default:function lala(){
-  //   return this.title.replace(/ /g, "-")+"-"+this._id.splice(-4);
-  //   },
-  //   required:true
-  // },
   accepted: {
     type: Number,
     default: 0,

@@ -16,10 +16,6 @@ let Application = new mongoose.Schema({
     ref: "Listing",
     required: true,
   },
-  SOP: {
-    type: String,
-    required: true,
-  },
   title: {
     type: String,
     required: true,
@@ -48,7 +44,7 @@ let Application = new mongoose.Schema({
     default: -1,
   },
   salary: {
-    type: Number,
+    type: String,
     required: true,
   },
   applied_on: {

@@ -4,6 +4,7 @@ let Application = require("../models/Application");
 let User = require("../models/User");
 const auth = require("../config/auth");
 const fixJobs = require("../helpers/fixJobs");
+const mongoose = require("mongoose");
 
 // @route POST api/list/add
 // @desc adds to list
@@ -46,8 +47,8 @@ router.post("/", (req, res) => {
 });
 
 
-router.get("/:id", (req, res) => {
-  var id = req.params.id;
+router.get("/job/:id", (req, res) => {
+  let id = req.params.id;
   Listings.findOne({ _id: id }).then((list) => {
     if (list) {
       return res.status(200).json(list);
@@ -118,6 +119,7 @@ router.get("/rid", (req, res) => {
     return res.status(401).send("Not authorised!");
   }
   var id = auth(token);
+
   fixJobs();
   Listings.find({ rid: id }).then((listings) => {
     if (listings) {
