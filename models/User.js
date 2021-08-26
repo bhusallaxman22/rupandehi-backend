@@ -24,6 +24,9 @@ let User = new mongoose.Schema({
     required: true,
     minlength: 3,
   },
+  yoe:{
+    type: Number,
+  },
   sum: {
     type: Number,
     default: 0,
