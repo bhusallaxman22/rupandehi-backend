@@ -12,6 +12,7 @@
 
       <priority>0.8</priority>
 
+      <description>Home</description>
 
    </url>
 
@@ -20,6 +21,7 @@
       <loc>https://rupandehijobs.herokuapp.com/#jobs</loc>
 
       <changefreq>weekly</changefreq>
+      <description>Jobs</description>
 
    </url>
 
@@ -28,6 +30,7 @@
       <loc>https://rupandehijobs.herokuapp.com/#about</loc>
 
       <changefreq>weekly</changefreq>
+      <description>About</description>
 
    </url>
 
@@ -36,6 +39,7 @@
       <loc>https://rupandehijobs.herokuapp.com/#login</loc>
 
       <changefreq>weekly</changefreq>
+      <description>Login</description>
       <priority>0.3</priority>
 
    </url>
@@ -45,6 +49,7 @@
       <loc>https://rupandehijobs.herokuapp.com/#signup</loc>
 
       <changefreq>weekly</changefreq>
+      <description>Sign Up</description>
       <priority>0.3</priority>
 
    </url>

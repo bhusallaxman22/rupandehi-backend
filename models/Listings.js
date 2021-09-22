@@ -17,9 +17,9 @@ let Listing = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  level:{
-    type:String,
-    required:true
+  level: {
+    type: String,
+    required: true
   },
   job_location: {
     type: String,
@@ -89,6 +89,10 @@ let Listing = new mongoose.Schema({
     type: String,
     enum: ["Deadline Expired", "Open"],
     default: "Open",
+  },
+  view_count: {
+    type: Number,
+    default: 0
   },
   sum: {
     type: Number,
